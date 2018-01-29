@@ -1,2 +1,2 @@
 # Perseus-Scraper
- A Python-based web-scraper that (will) collect Ancient Greek text from a digital manuscript and identify vowel length.
+The text file should appear in the same folder as the .py file with the name of the Book and Line numbers as its name.
