@@ -1,15 +1,3 @@
-#For Parsing Perseus.com text files in bulk and identifying meter#
-
-
-# 
-
-#longv = ("?", "?", "?", "?", "?")
-#longv = ()
-
-
-#shortv = ("?", "?", "?", "?", "?")
-#shortv = ()
-
 from bs4 import BeautifulSoup
 import requests
 
@@ -44,3 +32,5 @@ file_name = n_file_name.replace('\n', '')
 file = open(file_name, mode = 'w', encoding = 'utf-8-sig')
 file.write(fulltext)
 file.close()
+
+print("Complete!")
