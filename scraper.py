@@ -3,30 +3,44 @@
 
 # 
 
-#longv = ("ᾱ", "η", "ῑ", "ω", "ῡ")
+#longv = ("?", "?", "?", "?", "?")
 #longv = ()
 
 
-#shortv = ("α", "ε", "ι", "ο", "υ")
+#shortv = ("?", "?", "?", "?", "?")
 #shortv = ()
 
 from bs4 import BeautifulSoup
-from requests import get
+import requests
 
-url = 'http://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.01.0135%3Abook%3D1%3Acard%3D1'
+#Identifies target URL#
+url = input('Enter a Perseus webpage:')
 
-response = get(url)
+source = requests.get(url).text
 
-html_soup = BeautifulSoup(response.text, 'html.parser')
-type(html_soup)
+soup = BeautifulSoup(source, 'lxml') #Stores URL HTML in a variable#
 
-greektext = html_soup.find_all('div', class_ = 'text_container greek')
+body = soup.find('div', class_ = 'text') #Isolates div class which contains the target body of text#
 
-word1 = greektext.find('a', class_ = 'text')
-word1 = int(word1.text)
+#words = body.find_all('a') #Stores all words in variable#
 
-print(len(word1))
+fulltext_list = []
 
-#for word in words:
- #   if "morph" in word:
-      #  print(word.text)
+for word in body.contents:
+      if word.find('<a') != -1:
+            fulltext_list.append(word.text)
+      if word.find('<br>') != -1:
+            fulltext_list.append('\r')
+      else:
+            fulltext_list.append(word)
+
+fulltext = ''.join(fulltext_list)
+
+n_file_name = soup.find('title').text #opens new file and defines name#
+
+file_name = n_file_name.replace('\n', '')
+
+#print(file_name)
+file = open(file_name, mode = 'w', encoding = 'utf-8-sig')
+file.write(fulltext)
+file.close()
